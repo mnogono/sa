@@ -139,3 +139,40 @@ void AudioAnalyser::setMaxDurationBetweenSequentialGoodMaximums(double maxDurati
     }
     this->maxDurationBetweenSequentialGoodMaximums = maxDurationBetweenSequentialGoodMaximums;
 }
+
+size_t AudioAnalyser::getAveragedCount() const {
+    return averagedCount;
+}
+
+size_t AudioAnalyser::getAveragedImpulseCount() const {
+    return averagedImpulseCount;
+}
+
+double *AudioAnalyser::getAveragedSquare() {
+    return averagedSquare;
+}
+
+double AudioAnalyser::sampleTimeStamp(int sampleIndex) const {
+    return sampleIndex * singleSampleDuration;
+}
+
+double AudioAnalyser::getTypicalAveragedSignal() const {
+    return typicalAveragedSignal;
+}
+
+double AudioAnalyser::getMinRatioOfGoodMaximumAndTypicalSignal() const {
+    return minRatioOfGoodMaximumAndTypicalSignal;
+}
+
+double AudioAnalyser::averagedMin(int minIndexInAveragedSquare, int maxIndexInAveragedSquare) {
+    minIndexInAveragedSquare = max(minIndexInAveragedSquare, 0);
+    maxIndexInAveragedSquare = min(maxIndexInAveragedSquare, static_cast<int>(averagedCount - 1));
+    double result = numeric_limits<double>::infinity();
+    for (int k = minIndexInAveragedSquare; k <= maxIndexInAveragedSquare; ++k) {
+        if (averagedSquare[k] < result) {
+            result = averagedSquare[k];
+        }
+    }
+    return result;
+}
+

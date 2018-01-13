@@ -2,11 +2,10 @@
 // Created by mnogono on 13.01.18.
 //
 
-#include "sound_analysis_config.h"
-
 #ifndef CLION_TEST_AUDIO_ANALYSER_H
 #define CLION_TEST_AUDIO_ANALYSER_H
 
+#include "sound_analysis_config.h"
 #include "audio_local_maximum_aperture_info.h"
 
 class AudioAnalyser {
@@ -39,7 +38,7 @@ private:
     double localMaxAperture = 0.25;
 
     /** "cry" must be a maximum during localMaxAperture seconds */
-    double minRatioOfGoodMaximumTypicalSignal = 2.0;
+    double minRatioOfGoodMaximumAndTypicalSignal = 2.0;
     double localMaxWideAperture = 2.0;
 
     /** "cry" must be much stronger then low signal while localMaxWideAperture second
@@ -70,6 +69,12 @@ private:
 
     int maxNumberOfSequentialGoodMaximums = -1;
     int totalNumberOfSequentialGoodMaximums = -1;
+
+    void average();
+
+    void averageImpulse();
+
+    static double * allocateIfNecessary(double *array, size_t len);
 
 public:
     explicit AudioAnalyser(double singleSampleDurationSeconds);
@@ -123,6 +128,22 @@ public:
     double getMaxDurationBetweenSequentialGoodMaximums() const;
 
     void setMaxDurationBetweenSequentialGoodMaximums(double maxDurationBetweenSequentialGoodMaximums);
+
+    size_t getAveragedCount() const;
+
+    size_t getAveragedImpulseCount() const;
+
+    double * getAveragedSquare();
+
+    double sampleTimeStamp(int sampleIndex) const;
+
+    double getTypicalAveragedSignal() const;
+
+    double getMinRatioOfGoodMaximumAndTypicalSignal() const;
+
+    double averagedMin(int minIndexInAveragedSquare, int maxIndexInAveragedSquare);
+
+    double averagedPercentile(int minIndexInAveragedSquare, int maxIndexInAveragedSquare, double level);
 };
 
 #endif //CLION_TEST_AUDIO_ANALYSER_H

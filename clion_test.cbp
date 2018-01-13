@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="clion_test"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/mnogono/w/sa"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/mnogono/w/sa"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/mnogono/w/sa"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="clion_test">
+				<Option output="/home/mnogono/w/sa/clion_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mnogono/w/sa"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clion_test"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="clion_test/fast">
+				<Option output="/home/mnogono/w/sa/clion_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mnogono/w/sa"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clion_test/fast"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/home/mnogono/w/sa/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/mnogono/w/sa/analysing_tools.cpp">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/analysing_tools.h">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/audio_analyser.cpp">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/audio_analyser.h">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/audio_local_maximum_aperture_info.cpp">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/audio_local_maximum_aperture_info.h">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/main.cpp">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/sound_analysis_config.h">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
