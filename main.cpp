@@ -15,5 +15,6 @@ int main() {
     assert(maxVal == 3.0);
 
     cout << "Hello, World!" << endl;
+    system("pause");
     return 0;
 }
