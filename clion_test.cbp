@@ -105,6 +105,12 @@
 		<Unit filename="/home/mnogono/w/sa/main.cpp">
 			<Option target="clion_test"/>
 		</Unit>
+		<Unit filename="/home/mnogono/w/sa/simple_audio_conversion.cpp">
+			<Option target="clion_test"/>
+		</Unit>
+		<Unit filename="/home/mnogono/w/sa/simple_audio_conversion.h">
+			<Option target="clion_test"/>
+		</Unit>
 		<Unit filename="/home/mnogono/w/sa/sound_analysis_config.h">
 			<Option target="clion_test"/>
 		</Unit>

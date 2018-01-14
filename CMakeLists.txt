@@ -13,4 +13,5 @@ add_executable(
         audio_analyser.h
         audio_local_maximum_aperture_info.cpp
         audio_local_maximum_aperture_info.h
-)
+        simple_audio_conversion.cpp
+        simple_audio_conversion.h)
