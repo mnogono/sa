@@ -1,7 +1,3 @@
-//
-// Created by mnogono on 13.01.18.
-//
-
 #ifndef CLION_TEST_AUDIO_ANALYSER_H
 #define CLION_TEST_AUDIO_ANALYSER_H
 

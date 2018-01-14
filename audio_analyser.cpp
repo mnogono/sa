@@ -1,7 +1,3 @@
-//
-// Created by mnogono on 13.01.18.
-//
-
 #include "audio_analyser.h"
 #include "analysing_tools.h"
 

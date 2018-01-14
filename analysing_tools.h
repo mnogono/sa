@@ -1,7 +1,3 @@
-//
-// Created by mnogono on 12.01.18.
-//
-
 #include "sound_analysis_config.h"
 
 #ifndef CLION_TEST_ANALYSIS_TOOLS_H

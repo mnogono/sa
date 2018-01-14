@@ -1,7 +1,3 @@
-//
-// Created by mnogono on 13.01.18.
-//
-
 #include "sound_analysis_config.h"
 
 #ifndef CLION_TEST_AUDIO_LOCAL_MAXIMUM_APERTURE_INFO_H

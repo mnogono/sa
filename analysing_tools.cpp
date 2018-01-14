@@ -1,7 +1,3 @@
-//
-// Created by mnogono on 12.01.18.
-//
-
 #include <cstring>
 #include "analysing_tools.h"
 
