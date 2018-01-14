@@ -17,7 +17,7 @@ public:
      * @param [in] size values size
      * @return results pointer of allocated memory
      */
-    static double * intToDouble(const int *values, size_t size);
+    static double * intToDouble(const int *values, int size);
 
     /**
      * Find max value under values array
@@ -36,7 +36,7 @@ public:
      * @param [in] level
      * @return
      */
-    static double percentile(const double *values, size_t offset, size_t count, double *workMemory, double level);
+    static double percentile(const double *values, int offset, int count, double *workMemory, double level);
 
     /**
      * TODO

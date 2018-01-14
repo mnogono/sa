@@ -3,6 +3,7 @@
 //
 
 #include "audio_analyser.h"
+#include "analysing_tools.h"
 
 using namespace std;
 
@@ -140,11 +141,11 @@ void AudioAnalyser::setMaxDurationBetweenSequentialGoodMaximums(double maxDurati
     this->maxDurationBetweenSequentialGoodMaximums = maxDurationBetweenSequentialGoodMaximums;
 }
 
-size_t AudioAnalyser::getAveragedCount() const {
+int AudioAnalyser::getAveragedCount() const {
     return averagedCount;
 }
 
-size_t AudioAnalyser::getAveragedImpulseCount() const {
+int AudioAnalyser::getAveragedImpulseCount() const {
     return averagedImpulseCount;
 }
 
@@ -164,6 +165,14 @@ double AudioAnalyser::getMinRatioOfGoodMaximumAndTypicalSignal() const {
     return minRatioOfGoodMaximumAndTypicalSignal;
 }
 
+double AudioAnalyser::getAveragingAperture() const {
+    return averagingAperture;
+}
+
+double *AudioAnalyser::getAveragedImpulseSquare() {
+    return averagedImpulseSquare;
+}
+
 double AudioAnalyser::averagedMin(int minIndexInAveragedSquare, int maxIndexInAveragedSquare) {
     minIndexInAveragedSquare = max(minIndexInAveragedSquare, 0);
     maxIndexInAveragedSquare = min(maxIndexInAveragedSquare, static_cast<int>(averagedCount - 1));
@@ -174,5 +183,16 @@ double AudioAnalyser::averagedMin(int minIndexInAveragedSquare, int maxIndexInAv
         }
     }
     return result;
+}
+
+double AudioAnalyser::averagedPercentile(int minIndexInAveragedSquare, int maxIndexInAveragedSquare, double level) {
+    minIndexInAveragedSquare = max(minIndexInAveragedSquare, 0);
+    maxIndexInAveragedSquare = min(maxIndexInAveragedSquare, static_cast<int>(averagedCount - 1));
+    return AnalysingTools::percentile(
+            averagedSquare,
+            minIndexInAveragedSquare,
+            maxIndexInAveragedSquare - minIndexInAveragedSquare + 1,
+            workMemory,
+            level);
 }
 

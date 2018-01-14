@@ -58,11 +58,11 @@ private:
     double typicalAveragedSignal;
 
     /** Analysis results: */
-    size_t averagedCount = 0;
+    int averagedCount = 0;
     double *averagedSquare;
 
-    size_t averagedImpulseCount = 0;
-    double averagedImpulseSquare;
+    int averagedImpulseCount = 0;
+    double *averagedImpulseSquare;
 
     std::vector<AudioLocalMaximumApertureInfo> allLocalMaximums;
     std::vector<AudioLocalMaximumApertureInfo> goodLocalMaximums;
@@ -129,9 +129,9 @@ public:
 
     void setMaxDurationBetweenSequentialGoodMaximums(double maxDurationBetweenSequentialGoodMaximums);
 
-    size_t getAveragedCount() const;
+    int getAveragedCount() const;
 
-    size_t getAveragedImpulseCount() const;
+    int getAveragedImpulseCount() const;
 
     double * getAveragedSquare();
 
@@ -141,9 +141,16 @@ public:
 
     double getMinRatioOfGoodMaximumAndTypicalSignal() const;
 
+    double averagedPercentile(int minIndexInAveragedSquare, int maxIndexInAveragedSquare, double level);
+
+    //TODO should be private
     double averagedMin(int minIndexInAveragedSquare, int maxIndexInAveragedSquare);
 
-    double averagedPercentile(int minIndexInAveragedSquare, int maxIndexInAveragedSquare, double level);
+    double getAveragingAperture() const;
+
+    double * getAveragedImpulseSquare();
+
+
 };
 
 #endif //CLION_TEST_AUDIO_ANALYSER_H

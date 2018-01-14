@@ -8,7 +8,7 @@
 using namespace std;
 
 AudioLocalMaximumApertureInfo::AudioLocalMaximumApertureInfo() {
-    //reset();
+    reset();
 }
 
 bool AudioLocalMaximumApertureInfo::isLocalMaximum() const {
@@ -139,27 +139,113 @@ void AudioLocalMaximumApertureInfo::analyseSample(
     const int maxWideIndexInAveragedSquare = averagedSampleIndex + wideApertureHalf;
     // can be little outside the range; then will be truncated
     minAveragedAbsoluteAmplitude = sqrt(max(
-            a.getAveragedMin(minWideIndexInAveragedSquare, averagedSampleIndex),
-            a.getAveragedMin(averagedSampleIndex, maxWideIndexInAveragedSquare)));
+            a.averagedMin(minWideIndexInAveragedSquare, averagedSampleIndex),
+            a.averagedMin(averagedSampleIndex, maxWideIndexInAveragedSquare)));
     // - important! signal must be essentially less both BEFORE and AFTER maximum
     if (minAveragedAbsoluteAmplitude * a.getMinRatioOfGoodMaximumAndLowSignal() > maxAveragedAbsoluteAmplitude) {
         // optimization: percentile cannot be less than minimum
-        this.tooLowRatioToLowSignal = true;
+        tooLowRatioToLowSignal = true;
         return;
     }
-    final double percentile = a.getLocalMaxLowSignalPercentile();
-    this.lowPercentileAveragedAbsoluteAmplitude = Math.sqrt(Math.max(
+    const double percentile = a.getLocalMaxLowSignalPercentile();
+    lowPercentileAveragedAbsoluteAmplitude = sqrt(max(
             a.averagedPercentile(minWideIndexInAveragedSquare, averagedSampleIndex, percentile),
             a.averagedPercentile(averagedSampleIndex, maxWideIndexInAveragedSquare, percentile)));
-//        System.out.printf("Found maximum %.3f at %d (%d) in aperture 2*%d%n",
-//            Math.sqrt(currentAmplitudeSquare), averagedSampleIndex, localMaximumSampleIndex, apertureHalf);
     if (lowPercentileAveragedAbsoluteAmplitude
         * a.getMinRatioOfGoodMaximumAndLowSignal() > maxAveragedAbsoluteAmplitude) {
-        this.tooLowRatioToLowSignal = true;
+        tooLowRatioToLowSignal = true;
         return;
     }
-    if (checkIsshortImpulse(a, averagedImpulseSampleIndex, currentAmplitudeSquare)) {
+
+    if (checkIsShortImpulse(a, averagedImpulseSampleIndex, currentAmplitudeSquare)) {
         return;
     }
-    this.goodLocalMaximum = true;
+
+    goodLocalMaximum = true;
+}
+
+int AudioLocalMaximumApertureInfo::findNearestImpulse(AudioAnalyser &a,
+                                                             int averagedImpulseSampleIndex,
+                                                             double amplitudeSquare) {
+    int searchWindowHalf = (int) (a.getAveragingAperture() / a.getSingleSampleDuration()) / 2;
+    // Impulse is averaged by smaller aperture, so, its peak can be little left or right from the local
+    // maximum in averaged graph (averaged by usual aperture). But the distance should not be greater
+    // than the averaging aperture.
+    for (int k = 0; k < searchWindowHalf; k++) {
+        const int left = averagedImpulseSampleIndex - k;
+        if (left >= 0 && a.getAveragedImpulseSquare()[left] >= amplitudeSquare) {
+            return left;
+        }
+        const int right = averagedImpulseSampleIndex + k;
+        if (right < a.getAveragedImpulseCount() && a.getAveragedImpulseSquare()[right] >= amplitudeSquare) {
+            return right;
+        }
+    }
+
+    return -1;
+}
+
+bool AudioLocalMaximumApertureInfo::checkIsShortImpulse(AudioAnalyser &a, int averagedImpulseSampleIndex,
+                                                        double currentAmplitudeSquare) {
+    const int nearestImpulse = findNearestImpulse(a, averagedImpulseSampleIndex, currentAmplitudeSquare);
+    if (nearestImpulse == -1) {
+        cannotFindShortImpulse = true;
+        return false;
+    }
+    const double ratio = a.getRatioOfImpulseAndSilence();
+    double silenceSquare = currentAmplitudeSquare / (ratio * ratio);
+    const int maxImpulseDuration = (int) (a.getMaxImpulseDuration() / a.getSingleSampleDuration());
+    int left = nearestImpulse;
+    while (left >= 0 && nearestImpulse - left < maxImpulseDuration
+           && a.getAveragedImpulseSquare()[left] >= silenceSquare) {
+        left--;
+    }
+    int right = nearestImpulse;
+    while (right < a.getAveragedImpulseCount() && right - nearestImpulse < maxImpulseDuration
+           && a.getAveragedImpulseSquare()[right] >= silenceSquare) {
+        right++;
+    }
+    impulseDuration = (right - left) * a.getSingleSampleDuration();
+    if (right - left >= maxImpulseDuration) {
+        return false;
+    }
+    shortImpulse = true;
+    const int shiftToSamples = static_cast<int>(a.getAveragingImpulseApertureLength() / 2);
+    shortImpulseLeft = left + shiftToSamples;
+    shortImpulseRight = right + shiftToSamples;
+    shortImpulseAbsoluteAmplitude = sqrt(silenceSquare);
+    tooShortSilenceBeforeImpulse = false;
+    tooShortSilenceAfterImpulse = false;
+    const int minSilenceDuration = (int) (a.getMinSilenceNearImpulseDuration() / a.getSingleSampleDuration());
+    for (int k = left, kMin = max(0, left - minSilenceDuration); k >= kMin; k--) {
+        if (a.getAveragedImpulseSquare()[k] > silenceSquare) {
+            tooShortSilenceBeforeImpulse = true;
+            break;
+        }
+    }
+    for (int k = right, kMax = min(a.getAveragedImpulseCount() - 1, right + minSilenceDuration); k <= kMax; k++) {
+        if (a.getAveragedImpulseSquare()[k] > silenceSquare) {
+            tooShortSilenceAfterImpulse = true;
+            break;
+        }
+    }
+    return !tooShortSilenceBeforeImpulse && !tooShortSilenceAfterImpulse;
+}
+
+void AudioLocalMaximumApertureInfo::reset() {
+    localMaximum = false;
+    goodLocalMaximum = false;
+    tooLowRatioToTypicalSignal = false;
+    tooLowRatioToLowSignal = false;
+    cannotFindShortImpulse = false;
+    shortImpulse = false;
+    tooShortSilenceBeforeImpulse = tooShortSilenceAfterImpulse = false;
+    localMaximumSampleIndex = -1;
+    minAveragedAbsoluteAmplitude = nan("");
+    lowPercentileAveragedAbsoluteAmplitude = nan("");
+    localMaximumSampleTimeStamp = nan("");
+    wideApertureHalfDuration = nan("");
+    impulseDuration = nan("");
+    shortImpulseAbsoluteAmplitude = nan("");
+
 }

@@ -9,9 +9,9 @@ using namespace std;
 
 AnalysingTools::AnalysingTools() = default;
 
-double *AnalysingTools::intToDouble(const int *values, size_t size) {
+double *AnalysingTools::intToDouble(const int *values, int size) {
     double *result = new double[size];
-    for (size_t i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i) {
         result[i] = static_cast<double>(values[i]);
     }
     return result;
@@ -49,7 +49,7 @@ static int cmpDbl(const void *v1, const void *v2) {
     return 0;
 }
 
-double AnalysingTools::percentile(const double *values, size_t offset, size_t count, double *workMemory,
+double AnalysingTools::percentile(const double *values, int offset, int count, double *workMemory,
                                  double level) {
     if (count <= 0) {
         return nan("");
@@ -57,15 +57,15 @@ double AnalysingTools::percentile(const double *values, size_t offset, size_t co
 
     memcpy(static_cast<void *>(workMemory),
            static_cast<const void *>(&values[offset]),
-           count);
+           static_cast<size_t>(count));
     qsort(static_cast<void *>(workMemory),
-          count,
+          static_cast<size_t>(count),
           sizeof(double),
           cmpDbl
     );
     size_t index = static_cast<size_t>(round(level * count));
     if (index > count - 1) {
-        index = count - 1;
+        index = static_cast<size_t>(count - 1);
     }
     if (index < 0) {
         index = 0;
